@@ -50,3 +50,31 @@ Thư mục `PostgreSQL/` chứa các tài liệu tổng hợp, ghi chép và hư
    - Indexes — Tăng tốc truy vấn, đánh đổi giữa tốc độ đọc và chi phí ghi.
    - Transactions & Concurrency Control (MVCC, Isolation Levels).
    - Quy trình Database Design: ERD → Logical → Physical Schema.
+
+8. 🛡️ **[07. ACID Properties in PostgreSQL (Bộ 4 Tính Chất Vàng)](./07_acid.md)**
+   - Chi tiết 4 tính chất: Atomicity, Consistency, Isolation, Durability.
+   - Cách PostgreSQL hiện thực từng tính chất (pg_xact, Constraints, MVCC, WAL + fsync).
+   - Bảng so sánh 4 cấp độ cô lập (Isolation Levels) và các hiện tượng bất thường (Dirty Read, Phantom Read...).
+
+9. 📦 **[08. Transactions in PostgreSQL (Giao Dịch Cơ Sở Dữ Liệu)](./08_transactions.md)**
+   - Đơn vị công việc logic (Logical Unit of Work) & Vòng đời giao dịch (Active $\to$ Committed / Aborted).
+   - Lệnh điều khiển: `BEGIN`, `COMMIT`, `ROLLBACK`, và quản lý điểm lưu cục bộ với `SAVEPOINT`.
+   - Autocommit vs Explicit Transaction; Cảnh báo lỗi Long-running Transactions và Deadlocks.
+
+10. ⚡ **[09. Multi-Version Concurrency Control - MVCC (Đa Phiên Bản)](./09_mvcc.md)**
+    - Triết lý: "Đọc không bao giờ chặn Ghi, Ghi không bao giờ chặn Đọc".
+    - Kiến trúc Tuple với các cột ẩn: `xmin`, `xmax`, `ctid` và cơ chế hoạt động của `INSERT`/`UPDATE`/`DELETE`.
+    - Cơ chế Snapshot Isolation; Vấn đề Dead Tuples, Table Bloat và giải pháp `VACUUM` / `AUTOVACUUM`.
+    - Hiện tượng Transaction ID Wraparound và cơ chế Freeze.
+
+11. 📝 **[10. Write-Ahead Log - WAL (Nhật Ký Ghi Trước)](./10_write_ahead_log.md)**
+    - Nguyên lý ARIES: Ghi log tuần tự (Sequential I/O) trước khi ghi đĩa dữ liệu (Random I/O).
+    - Vai trò của Checkpoint và cơ chế Crash Recovery (REDO log).
+    - Các ứng dụng nâng cao: Streaming Replication (Master-Replica), Point-In-Time Recovery (PITR), Change Data Capture (CDC).
+
+12. 🔍 **[11. Query Processing Engine (Vòng Đời Xử Lý Truy Vấn)](./11_query_processing.md)**
+    - 4 Giai đoạn xử lý truy vấn: Parser $\to$ Analyzer & Rewriter $\to$ Planner/Optimizer $\to$ Executor.
+    - Bộ tối ưu dựa trên chi phí (Cost-based Optimizer) & Các thuật toán Scan (`Seq Scan`, `Index Scan`) và Join (`Nested Loop`, `Hash Join`, `Merge Join`).
+    - Hướng dẫn thực hành đo đạc với `EXPLAIN (ANALYZE, BUFFERS)` và lời khuyên tối ưu cho Backend Developer.
+
+
