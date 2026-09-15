@@ -77,4 +77,25 @@ Thư mục `PostgreSQL/` chứa các tài liệu tổng hợp, ghi chép và hư
     - Bộ tối ưu dựa trên chi phí (Cost-based Optimizer) & Các thuật toán Scan (`Seq Scan`, `Index Scan`) và Join (`Nested Loop`, `Hash Join`, `Merge Join`).
     - Hướng dẫn thực hành đo đạc với `EXPLAIN (ANALYZE, BUFFERS)` và lời khuyên tối ưu cho Backend Developer.
 
+13. 🔌 **[12. Connect Using `psql` CLI (Thao Tác Dòng Lệnh Cốt Lõi)](./12_connect_using_psql.md)**
+    - Cú pháp kết nối Local, Docker, Remote và chuẩn Connection String URI.
+    - Bộ lệnh Meta-Commands thiết yếu: `\q`, `\l`, `\c`, `\dt`, `\d`, `\dn`, `\du`.
+    - Pro-tips cho Backend Dev: Đo lường truy vấn với `\timing`, định dạng hiển thị `\x auto`, thực thi file script `-f` và lệnh nhanh `-c`.
+
+14. 🐳 **[13. Using Docker with PostgreSQL (Container Hóa)](./13_using_docker.md)**
+    - Lệnh chạy nhanh `docker run` chuẩn kèm ánh xạ Port & gắn Volume lưu trữ dữ liệu bền vững.
+    - Mẫu file `docker-compose.yml` chuẩn cho dự án Backend kèm cấu hình `healthcheck`.
+    - Cách kết nối từ máy Host và thao tác trực tiếp bên trong container (`docker exec`).
+
+15. ⚙️ **[14. Managing Postgres (systemd, pg_ctl, pg_ctlcluster)](./14_managing_postgres.md)**
+    - Quản trị dịch vụ Linux qua `systemd` (`status`, `start`, `restart`, `reload`).
+    - Công cụ gốc `pg_ctl` và 3 chế độ tắt database (`smart`, `fast`, `immediate`).
+    - Quản lý đa phiên bản trên Ubuntu/Debian bằng `pg_ctlcluster` & Checklist xử lý sự cố.
+
+16. ☁️ **[15. Deployment in Cloud (Triển Khai Đám Mây & DBaaS)](./15_deployment_in_cloud.md)**
+    - So sánh Self-hosted vs Managed DBaaS (AWS RDS, GCP Cloud SQL, Supabase, Neon).
+    - Các nguyên tắc an toàn: Connection Pooling (PgBouncer), bắt buộc SSL (`sslmode=require`), bảo mật Private VPC.
+
+
+
 
