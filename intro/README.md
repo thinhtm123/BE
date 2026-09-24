@@ -24,6 +24,32 @@ Thư mục `intro/` chứa các tài liệu tổng hợp và nghiên cứu chuy�
 6. ⚡ **[HTTP & HTTPS (Giao Thức Truyền Tải Siêu Văn Bản)](./http.md)**
    - Mô hình Request-Response, định dạng thông điệp, bản chất Stateless, các HTTP Methods/Status codes và so sánh HTTP vs HTTPS.
 
+7. 🔌 **[APIs - Application Programming Interface (Giao Diện Lập Trình Ứng Dụng)](./api_fundamentals.md)**
+   - Ẩn dụ kinh điển "Người bồi bàn nhà hàng" kết nối Client (Khách) và Backend/DB (Nhà bếp).
+   - 3 Trụ cột cốt lõi: Endpoints (URL), HTTP Methods (GET, POST, PUT, PATCH, DELETE tương ứng CRUD), và Data Formats (JSON thống trị vs XML).
+   - Tổng quan các kiến trúc: RESTful, GraphQL, gRPC, WebSocket.
+
+8. 🌐 **[REST & RESTful API (Kiến Trúc Chuẩn Cho Web API)](./rest_api.md)**
+   - 6 Ràng buộc kiến trúc (Constraints) của REST: Client-Server, Stateless, Cacheable, Uniform Interface, Layered System.
+   - Bản chất "Stateless": Server không lưu session, mở rộng ngang (Horizontal Scaling) mượt mà.
+   - Quy chuẩn đặt tên URI (Danh từ số nhiều, cấm dùng động từ) & Ma trận HTTP Status Codes (200, 201, 204, 400, 401, 403, 404, 500).
+
+9. 📋 **[JSON:API Specification (Đặc Tả Định Dạng Chuẩn Cho REST API)](./json_api_specification.md)**
+   - Phân biệt dùng JSON tùy tiện (Ad-hoc) vs Bản đặc tả chuẩn công nghiệp JSON:API (`jsonapi.org`).
+   - Cấu trúc khung xương: `data` (`type`, `id`, `attributes`), `relationships`, `included` (chống N+1 API gọi nhiều lần), và `meta`.
+   - Chuẩn Content-Type: `application/vnd.api+json`.
+
+10. ⚔️ **[So Sánh Kiến Trúc API: REST vs SOAP vs gRPC vs GraphQL](./api_architectures_comparison.md)**
+    - Phân chia "lãnh địa" thực tế: Không có cái nào ít dùng, chỉ là dùng đúng chỗ!
+    - SOAP: Hệ thống Ngân hàng, Core Banking, Tài chính quốc tế (XML/WSDL).
+    - gRPC: Vua tốc độ kết nối nội bộ giữa các Microservices (HTTP/2 + Protobuf nhị phân).
+    - GraphQL: Facebook phát minh giúp Frontend/Mobile tự do chọn trường dữ liệu (chống Over-fetching & Under-fetching).
+    - Bảng so sánh toàn diện 4 kiến trúc.
+
 ---
 
 *Tài liệu tham khảo chính: [cs.fyi - How does the Internet Work?](https://cs.fyi/guide/how-does-internet-work)*
+
+
+
+

@@ -181,6 +181,19 @@ Thư mục `PostgreSQL/` chứa các tài liệu tổng hợp, ghi chép và hư
     - Background Writer (`bgwriter`): Tiến trình âm thầm ghi rải rác để làm mịn lưu lượng I/O, tránh nghẽn đột ngột.
     - Bộ 3 tham số tinh chỉnh: `checkpoint_timeout`, `max_wal_size`, và `checkpoint_completion_target = 0.9`.
 
+33. 🚀 **[33. Database Migrations (Quản Lý Phiên Bản Cơ Sở Dữ Liệu)](./33_database_migrations.md)**
+    - Bản chất: "Git dành riêng cho Database Schema" — loại bỏ hoàn toàn việc gõ SQL bằng tay khi deploy.
+    - Cơ chế hoạt động của Migration Tool (Flyway / Liquibase / Prisma): Đặt tên file theo version (`V1__...`, `V2__...`) và bảng lịch sử `flyway_schema_history`.
+    - Hai chiều vận hành: `UP` (Nâng cấp) vs `DOWN` (Hạ cấp / Rollback).
+    - Danh sách công cụ chuẩn cho từng hệ sinh thái (Spring Boot, Node.js, Go, Python).
+
+34. ⚠️ **[34. N+1 Problem (Cơn Ác Mộng Hiệu Năng Backend & ORM)](./34_n_plus_one_problem.md)**
+    - Bản chất: 1 câu query lấy danh sách cha + N câu query con lặp lại trong vòng for (1 + N queries).
+    - Hậu quả: Đánh sập CPU database khi dữ liệu lên hàng nghìn bản ghi trên Production.
+    - 3 Giải pháp "đặc trị": Dùng `JOIN` (hoặc `JOIN FETCH` trong JPA), Batching gom cụm bằng `IN (...)`, và quản lý `LAZY` vs `EAGER` loading.
+
+
+
 
 
 
