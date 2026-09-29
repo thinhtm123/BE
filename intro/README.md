@@ -46,6 +46,12 @@ Thư mục `intro/` chứa các tài liệu tổng hợp và nghiên cứu chuy�
     - GraphQL: Facebook phát minh giúp Frontend/Mobile tự do chọn trường dữ liệu (chống Over-fetching & Under-fetching).
     - Bảng so sánh toàn diện 4 kiến trúc.
 
+11. 📜 **[OpenAPI Specification (OAS) & Swagger](./openapi_specification.md)**
+    - Bản vẽ thiết kế kỹ thuật (Contract) chuẩn hóa cho REST API bằng YAML/JSON.
+    - Phân biệt bản chất: OpenAPI (Quy chuẩn/Tiêu chuẩn) vs Swagger (Bộ công cụ/UI).
+    - Hai trường phái thực tế: Code-First (viết code sinh docs) vs Design-First (chốt spec trước, generate code sau).
+    - Hệ sinh thái tự động hóa: Swagger UI, Client SDK generation, Mock Server (Prism).
+
 ---
 
 *Tài liệu tham khảo chính: [cs.fyi - How does the Internet Work?](https://cs.fyi/guide/how-does-internet-work)*
