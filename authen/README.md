@@ -35,3 +35,27 @@ Thư mục này tập trung vào các kiến thức cốt lõi, chuẩn giao th�
    - Cách 2: Spring Boot 3.x Java (Kích hoạt với Spring Security `httpBasic()`).
    - Cách 3: Tự code thủ công bóc tách Header `Authorization` (Node.js/Express).
    - Cách test bằng `curl` và Postman.
+
+6. 🎫 **[Token-Based Authentication (Toàn Cảnh Kiến Trúc)](./06_token_based_authentication.md)**
+   - Ẩn dụ "Con dấu dạ quang công viên nước" vs Session-Cookie truyền thống.
+   - Phân biệt 2 loại Token: Opaque Token (By-Reference qua Redis) vs Self-Contained Token (By-Value như JWT).
+   - Vì sao Token áp đảo Cookie trong Mobile App, Microservices và CORS.
+   - Vấn đề bảo mật sống còn: Lưu Token ở đâu trên Web? (LocalStorage vs HttpOnly Cookie, XSS vs CSRF).
+
+7. 🍪 **[Cookie-Based Authentication (Session-Cookie Truyền Thống)](./07_cookie_based_authentication.md)**
+   - Ẩn dụ "Thẻ gửi đồ siêu thị" và bản chất Stateful của Session.
+   - Bộ ba cờ bảo vệ bắt buộc: `HttpOnly` (chống XSS), `Secure` (HTTPS), `SameSite` (chống CSRF).
+   - 2 Thách thức lớn: Nguy cơ tấn công CSRF và bài toán mở rộng cụm server (Session Clustering với Redis).
+   - So sánh toàn diện: Cookie-based vs Token-based & Khi nào Cookie vẫn là "vua".
+
+8. 🏢 **[Single Sign-On (SSO): OpenID Connect (OIDC) vs. SAML 2.0](./08_openid_and_saml_sso.md)**
+   - Bài toán Single Sign-On (SSO) trong doanh nghiệp: Một tài khoản mở mọi ứng dụng.
+   - SAML 2.0: "Lão làng" Enterprise (2005) dùng XML, Chữ ký số X.509, IdP và SP.
+   - OpenID Connect (OIDC): "Kẻ kế vị" hiện đại dùng JSON, REST, OAuth 2.0 và JWT `id_token`.
+   - So sánh trực diện và lãnh địa thực tế (B2B Enterprise vs B2C/Mobile App).
+
+9. 🔄 **[Luồng Chạy Chi Tiết: SAML 2.0 SSO vs. OIDC Flow](./09_saml_and_oidc_flows_in_depth.md)**
+   - Kịch bản thực tế: Nhân viên vào Jira qua cổng quản lý tài khoản Okta.
+   - Giải phẫu 2 gói tin XML cốt lõi: `<samlp:AuthnRequest>` và `<samlp:Response>`.
+   - Cơ chế "Auto-Submit Form" độc đáo của SAML (tại sao trình duyệt hay bị chớp trắng 1 giây?).
+   - So sánh bản chất Front-channel (SAML) vs Back-channel (OIDC REST/JSON).
