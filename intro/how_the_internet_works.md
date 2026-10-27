@@ -36,20 +36,20 @@ Tài liệu chi tiết giải thích toàn bộ nguyên lý hoạt động của
 
 ```mermaid
 graph TD
-    subgraph "Mạng Gia Đình A (LAN 1)"
-        ClientA1[Laptop A] --- RouterA[Home Router A]
-        ClientA2[Phone A] --- RouterA
+    subgraph LAN1 ["Mạng Gia Đình A (LAN 1)"]
+        ClientA1["Laptop A"] --- RouterA["Home Router A"]
+        ClientA2["Phone A"] --- RouterA
     end
 
-    subgraph "Mạng Doanh Nghiệp B (LAN 2)"
-        ServerB1[Web Server] --- RouterB[Enterprise Router B]
-        ServerB2[Database] --- RouterB
+    subgraph LAN2 ["Mạng Doanh Nghiệp B (LAN 2)"]
+        ServerB1["Web Server"] --- RouterB["Enterprise Router B"]
+        ServerB2["Database"] --- RouterB
     end
 
-    RouterA --> ISP1[Nhà Mạng Viettel/VNPT (Local ISP)]
-    RouterB --> ISP2[Nhà Mạng FPT/CMC (Local ISP)]
+    RouterA --> ISP1["Nhà Mạng Viettel / VNPT (Local ISP)"]
+    RouterB --> ISP2["Nhà Mạng FPT / CMC (Local ISP)"]
 
-    ISP1 --> Tier1[Tier-1 Global Backbone / Cáp Quang Biển]
+    ISP1 --> Tier1["Tier-1 Global Backbone / Cáp Quang Biển"]
     ISP2 --> Tier1
 ```
 

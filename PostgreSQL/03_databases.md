@@ -16,26 +16,23 @@ flowchart TD
     Server["🖥️ <b>PostgreSQL Server Instance (Cluster)</b><br/>(Chạy trên Port 5432, chung RAM & CPU)"]
 
     subgraph DB1["🗄️ Database: <b>ecommerce_prod</b>"]
-        direction TB
         S1["📁 Schema: auth"]
         S2["📁 Schema: sales"]
         S3["📁 Schema: public"]
     end
 
     subgraph DB2["🗄️ Database: <b>analytics_warehouse</b>"]
-        direction TB
         S4["📁 Schema: raw_events"]
         S5["📁 Schema: aggregate_reports"]
     end
 
     subgraph DB3["🗄️ Database: <b>template1</b> (System)"]
-        direction TB
         S6["Khuôn mẫu mặc định khi tạo DB mới"]
     end
 
-    Server --> DB1
-    Server --> DB2
-    Server --> DB3
+    Server --> S1
+    Server --> S4
+    Server --> S6
 ```
 
 ### Đặc tính cô lập tuyệt đối (Strict Isolation):

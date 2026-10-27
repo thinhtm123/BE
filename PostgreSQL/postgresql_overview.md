@@ -20,37 +20,33 @@ flowchart TD
     Core(["🐘 <b>PostgreSQL Core (ORDBMS)</b>"]):::coreStyle
 
     subgraph P1["🛡️ 1. ACID & Độ Tin Cậy"]
-        direction TB
         A1["Write-Ahead Logging (WAL)"]
         A2["Point-in-Time Recovery (PITR)"]
         A3["Strict Constraints & Foreign Keys"]
     end
 
     subgraph P2["📦 2. Kiểu Dữ Liệu Đa Dạng"]
-        direction TB
         B1["JSON / JSONB (NoSQL lai)"]
         B2["Native UUID & Mảng (Arrays)"]
         B3["Range Types & Tọa độ PostGIS"]
     end
 
     subgraph P3["⚡ 3. Đồng Thời Cao (MVCC)"]
-        direction TB
         C1["Đọc không bao giờ chặn Ghi"]
         C2["Snapshot Isolation đa tầng"]
         C3["Khóa mịn từng dòng (Row-level Locking)"]
     end
 
     subgraph P4["🔌 4. Khả Năng Mở Rộng"]
-        direction TB
         D1["Extensions (pgvector, pgcrypto)"]
         D2["Ngôn ngữ hàm (PL/pgSQL, Python)"]
         D3["Đa dạng Index (B-Tree, GIN, GiST, BRIN)"]
     end
 
-    Core --> P1
-    Core --> P2
-    Core --> P3
-    Core --> P4
+    Core --> A1
+    Core --> B1
+    Core --> C1
+    Core --> D1
 
     classDef coreStyle fill:#336791,stroke:#1d4ed8,stroke-width:2px,color:#ffffff,font-weight:bold;
 ```

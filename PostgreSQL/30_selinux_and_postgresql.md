@@ -23,9 +23,12 @@ Nếu như các tầng bảo mật trước đây chúng ta học (mật khẩu,
 
 ```mermaid
 graph TD
-    Hacker["Hacker tấn công qua lỗ hổng SQL"] --> Postgres["Tiến trình PostgreSQL (Đã bị hack)"]
-    Postgres -->|Cố gắng đọc file hệ thống /etc/shadow| Kernel["Linux Kernel + SELinux"]
-    Kernel -->|🚨 CHẶN ĐỨNG (Access Denied)| Block["Ghi log cảnh báo & Khóa chặt hacker trong thư mục data"]
+    classDef danger fill:#991b1b,stroke:#ef4444,stroke-width:2px,color:#fff,font-weight:bold;
+    classDef shield fill:#065f46,stroke:#10b981,stroke-width:2px,color:#fff,font-weight:bold;
+
+    Hacker["Hacker tấn công qua lỗ hổng SQL"]:::danger --> Postgres["Tiến trình PostgreSQL (Đã bị hack)"]:::danger
+    Postgres -->|Cố gắng đọc file hệ thống /etc/shadow| Kernel["Linux Kernel + SELinux"]:::shield
+    Kernel -->|"🚨 CHẶN ĐỨNG (Access Denied)"| Block["Ghi log cảnh báo & Khóa chặt hacker trong thư mục data"]
 ```
 
 ---

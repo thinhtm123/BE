@@ -49,6 +49,12 @@ flowchart TD
    - Tuyệt đối không lưu dữ liệu nhạy cảm (Password, PIN, Thẻ, CCCD) vào Payload (Base64 không phải là mã hóa).
    - **Tối ưu kích thước Payload** $\to$ Tiết kiệm băng thông mạng và tránh lỗi `HTTP 431 / 413` tràn Header.
 
+3. 🔑 **[04. OAuth 2.0 Security Best Practices (Bảo Mật Ủy Quyền OAuth 2.0)](./04_oauth_security_best_practices.md)**
+   - **Xác thực `redirect_uri` phía Server** $\to$ So khớp chính xác tuyệt đối (Exact Match), triệt tiêu lỗ hổng Open Redirect và rò rỉ mã `code`.
+   - **Tránh dùng `response_type=token` (Khai tử Implicit Flow)** $\to$ Bắt buộc dùng `response_type=code` kết hợp PKCE (`code_verifier` / `code_challenge`).
+   - **Bắt buộc dùng tham số `state`** $\to$ Triệt tiêu nguy cơ tấn công OAuth Login CSRF (gắn tài khoản nạn nhân với tài khoản kẻ xấu).
+   - **Default Scope & Scope Validation** $\to$ Tuân thủ đặc quyền tối thiểu (Least Privilege), whitelist phạm vi quyền hạn cho từng `client_id`.
+
 ---
 
 ### 2️⃣ Nhóm Kiểm Soát Truy Cập & Hạ Tầng Mạng (Access Control)

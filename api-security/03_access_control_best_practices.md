@@ -228,15 +228,16 @@ Không phải API nào cũng được phép mở ra toàn thế giới (0.0.0.0/
 ```mermaid
 flowchart TD
     Internet["Internet (Hacker & Khách lạ)"] --> Gateway["API Gateway / Firewall"]
-    
+
     subgraph Allowed["Safe-listed IPs Only"]
         Office["IP Văn phòng Công ty / Dev"]
         VPN["Internal VPN / Tailscale"]
-        Partner["IP Đối tác Thanh toán (VNPay/Stripe)"]
+        Partner["IP Đối tác Thanh toán"]
     end
 
-    Allowed -->|Cho phép (200 OK)| PrivateAPI["Private / Admin API"]
-    Internet -->|Chặn đứng (403 Forbidden)| Block["Từ chối ngay tại cửa!"]
+    Allowed --> Gateway
+    Gateway -->|IP hợp lệ trong Whitelist: 200 OK| PrivateAPI["Private / Admin API"]
+    Gateway -->|IP lạ: Chặn đứng 403 Forbidden| Block["Từ chối ngay tại cửa!"]
 ```
 
 ### 🛡️ Chiến lược triển khai Safe-listing nhiều lớp:

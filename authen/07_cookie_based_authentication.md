@@ -18,6 +18,30 @@ Hãy tưởng tượng bạn đi siêu thị BigC/Co.opmart:
 
 ## 🔄 2. Luồng Hoạt Động Chi Tiết (Từng Header HTTP)
 
+```
+  [ 🌐 Trình Duyệt Web ]            [ ⚙️ Backend Server ]           [ 🗄️ Session Store (RAM/Redis) ]
+            │                                │                                      │
+            │── 1. POST /login ─────────────▶│                                      │
+            │   (username + password)        │── Kiểm tra password đúng!            │
+            │                                │                                      │
+            │                                │── 2. Lưu Session ───────────────────▶│
+            │                                │   {sessionId: "sess_999", userId: 12}│
+            │                                │                                      │
+            │◀── 3. Trả về 200 OK ───────────│                                      │
+            │   Set-Cookie: JSESSIONID=...   │                                      │
+            │   (Lưu an toàn vào Cookie JAR) │                                      │
+            │                                │                                      │
+            │── 4. GET /cart ───────────────▶│                                      │
+            │   Cookie: JSESSIONID=sess_999  │── 5. Tra cứu: "sess_999" là ai? ───▶│
+            │   (Browser TỰ ĐỘNG đính kèm)   │◀── Trả về: User ID 12 (ADMIN) ───────│
+            │◀── 6. 200 OK (Trả về giỏ hàng)─│                                      │
+            │                                │                                      │
+            │── 7. POST /logout ────────────▶│                                      │
+            │                                │── 8. Xóa Session khỏi bộ nhớ ───────▶│
+            │◀── 9. Set-Cookie: Max-Age=0 ───│                                      │
+            │   (Ra lệnh Browser xóa cookie) │                                      │
+```
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -32,8 +56,8 @@ sequenceDiagram
     Note over Server,SessionStore: BƯỚC 2: TẠO SESSION TRÊN SERVER
     Server->>SessionStore: Lưu { sessionId: "sess_999", userId: 12, role: "ADMIN" }
     
-    Note over Server,Browser: BƯỚC 3: SERVER TRẢ VỀ COOKIE
-    Server-->>Browser: 200 OK<br/>Header: Set-Cookie: JSESSIONID=sess_999; HttpOnly; Secure; SameSite=Lax
+    Note over Browser,Server: BƯỚC 3: SERVER TRẢ VỀ COOKIE
+    Server-->>Browser: 200 OK<br/>Header: Set-Cookie: JSESSIONID=sess_999, HttpOnly, Secure, SameSite=Lax
 
     Note over Browser,SessionStore: BƯỚC 4: CÁC REQUEST TIẾP THEO (TỰ ĐỘNG ĐÍNH KÈM)
     Browser->>Server: GET /cart<br/>Header: Cookie: JSESSIONID=sess_999 (Trình duyệt TỰ ĐỘNG gửi)
@@ -44,7 +68,7 @@ sequenceDiagram
     Note over Browser,SessionStore: BƯỚC 5: ĐĂNG XUẤT (LOGOUT)
     Browser->>Server: POST /logout
     Server->>SessionStore: XÓA "sess_999" khỏi bộ nhớ
-    Server-->>Browser: Set-Cookie: JSESSIONID=; Max-Age=0 (Ra lệnh trình duyệt xóa cookie)
+    Server-->>Browser: Set-Cookie: JSESSIONID=, Max-Age=0 (Ra lệnh trình duyệt xóa cookie)
 ```
 
 ---

@@ -10,21 +10,39 @@ Hiện nay, RESTful API là chuẩn mực thống trị tuyệt đối trong vi�
 
 Một API muốn đạt chuẩn RESTful phải tuân theo 6 nguyên tắc cốt lõi:
 
+```
+               ┌────────────────────────────────────────────────────────┐
+               │          🏛️ 6 NGUYÊN TẮC CỐT LÕI CỦA REST ARCHITECTURE  │
+               └────────────────────────────────────────────────────────┘
+                                           │
+         ┌───────────────────┬─────────────┼─────────────┬───────────────────┐
+         ▼                   ▼             ▼             ▼                   ▼
+┌─────────────────┐ ┌─────────────────┐ ┌──────┐ ┌───────────────┐ ┌─────────────────┐
+│ 1.Client-Server │ │  2. Stateless   │ │3. Ca-│ │4. Uniform Int-│ │5.Layered System │
+│ Tách biệt UI &  │ │ Không lưu sess- │ │cheab-│ │ erface (Chuẩn │ │ Client qua Proxy│
+│ logic dữ liệu   │ │ ion trên server │ │  le  │ │ URI, Verbs)   │ │ / CDN / Gateway │
+└─────────────────┘ └─────────────────┘ └──────┘ └───────────────┘ └─────────────────┘
+                                           │
+                                           ▼ (Tùy chọn)
+                                ┌─────────────────────┐
+                                │ 6. Code-on-Demand   │
+                                │ Server gửi kèm JS   │
+                                └─────────────────────┘
+```
+
 ```mermaid
-mindmap
-  root((6 Nguyên Tắc REST))
-    Client-Server
-      Tách rời hoàn toàn giao diện và logic dữ liệu
-    Stateless (Phi Trạng Thái)
-      Server không lưu session; Mỗi request phải tự chứa đủ thông tin
-    Cacheable
-      Response phải chỉ định rõ có được lưu đệm (cache) hay không
-    Uniform Interface (Giao Diện Đồng Nhất)
-      Mọi tài nguyên đều có URI chuẩn; Dùng HTTP Verbs
-    Layered System (Phân Tầng)
-      Client không cần biết đang kết nối thẳng vào server hay qua Proxy/CDN
-    Code-on-Demand (Tùy chọn)
-      Server có thể gửi kèm code (JS) về cho client chạy
+graph TD
+    classDef main fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#fff,font-weight:bold;
+    classDef rule fill:#0f172a,stroke:#64748b,stroke-width:1px,color:#f8fafc;
+
+    R["🏛️ 6 NGUYÊN TẮC CỐT LÕI CỦA REST"]:::main
+
+    R --> P1["1. Client-Server<br/>(Tách rời hoàn toàn giao diện & logic dữ liệu)"]:::rule
+    R --> P2["2. Stateless - Phi Trạng Thái<br/>(Server không lưu session; mỗi request tự chứa đủ thông tin)"]:::rule
+    R --> P3["3. Cacheable<br/>(Response chỉ định rõ có được lưu đệm hay không)"]:::rule
+    R --> P4["4. Uniform Interface<br/>(Mọi tài nguyên có URI chuẩn, dùng HTTP Verbs)"]:::rule
+    R --> P5["5. Layered System<br/>(Client không phân biệt kết nối trực tiếp hay qua Gateway/Proxy)"]:::rule
+    R --> P6["6. Code-on-Demand (Tùy chọn)<br/>(Server có thể gửi kèm code JS về cho Client)"]:::rule
 ```
 
 ---

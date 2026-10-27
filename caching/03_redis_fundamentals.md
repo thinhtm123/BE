@@ -102,22 +102,77 @@ Redis cung cấp **3 cơ chế ghi dữ liệu xuống ổ cứng (Persistence)*
 
 Khi lượng dữ liệu và người dùng vượt quá khả năng của 1 server:
 
+```
+               ┌────────────────────────────────────────────────────────┐
+               │         1. HIGH AVAILABILITY (REDIS SENTINEL)          │
+               └────────────────────────────────────────────────────────┘
+                       ┌─────────────────────────────────┐
+                       │   🛡️ Sentinel Cluster (Quorum)   │
+                       └─────────────────────────────────┘
+                                 │               :
+                   Giám sát liên tục             : Nếu Master sập, tự bầu
+                       (Heartbeat)               : Replica 1 lên làm Master mới!
+                                 ▼               ▼
+                       ┌───────────────────┐    ┌───────────────────┐
+                       │ 👑 Redis Master   │───▶│ 👥 Replica 1      │
+                       │    (Read + Write) │    │    (Read Only)    │
+                       └───────────────────┘    └───────────────────┘
+                                 │
+                                 ▼
+                       ┌───────────────────┐
+                       │ 👥 Replica 2      │
+                       │    (Read Only)    │
+                       └───────────────────┘
+
+               ┌────────────────────────────────────────────────────────┐
+               │         2. HORIZONTAL SCALING (REDIS CLUSTER)          │
+               └────────────────────────────────────────────────────────┘
+     ┌──────────────────────┐  Gossip Protocol  ┌──────────────────────┐
+     │       Node 1         │◀─────────────────▶│       Node 2         │
+     │  Slots: 0 - 5460     │                   │ Slots: 5461 - 10922  │
+     └──────────────────────┘                   └──────────────────────┘
+                 ▲                                         ▲
+                 │              Gossip Protocol            │
+                 └─────────────────────────────────────────┘
+                                       │
+                                       ▼
+                            ┌──────────────────────┐
+                            │       Node 3         │
+                            │ Slots: 10923 - 16383 │
+                            └──────────────────────┘
+```
+
 ```mermaid
 graph TD
+    classDef master fill:#b91c1c,stroke:#ef4444,stroke-width:2px,color:#fff,font-weight:bold;
+    classDef replica fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#fff,font-weight:bold;
+    classDef sentinel fill:#065f46,stroke:#10b981,stroke-width:2px,color:#fff,font-weight:bold;
+
     subgraph SENTINEL_HA ["1. HIGH AVAILABILITY (REDIS SENTINEL)"]
-        direction TB
-        M["👑 Master (Ghi + Đọc)"] --> R1["Replica 1 (Chỉ Đọc)"]
-        M --> R2["Replica 2 (Chỉ Đọc)"]
-        S["🛡️ Sentinel Cluster<br/>(Giám sát tự động)"] -.->|Nếu Master chết| S
-        S -.->|Tự bầu Replica 1 lên làm Master mới!| R1
+        S["🛡️ Sentinel Cluster<br/>(Giám sát tự động)"]:::sentinel
+        M["👑 Master (Ghi + Đọc)"]:::master
+        R1["👥 Replica 1 (Chỉ Đọc)"]:::replica
+        R2["👥 Replica 2 (Chỉ Đọc)"]:::replica
+
+        S -.->|1. Giám sát Heartbeat| M
+        S ==>|2. Nếu Master sập: Bầu cử làm Master mới| R1
+        M -->|Replication| R1
+        M -->|Replication| R2
     end
 ```
 
 ```mermaid
 graph LR
+    classDef cluster fill:#312e81,stroke:#6366f1,stroke-width:2px,color:#fff,font-weight:bold;
+
     subgraph CLUSTER ["2. HORIZONTAL SCALING (REDIS CLUSTER)"]
-        direction LR
-        N1["Node 1<br/>(Slots: 0 - 5460)"] <--> N2["Node 2<br/>(Slots: 5461 - 10922)"] <--> N3["Node 3<br/>(Slots: 10923 - 16383)"]
+        N1["Node 1<br/>Slots: 0 - 5460"]:::cluster
+        N2["Node 2<br/>Slots: 5461 - 10922"]:::cluster
+        N3["Node 3<br/>Slots: 10923 - 16383"]:::cluster
+
+        N1 <-->|Gossip Protocol| N2
+        N2 <-->|Gossip Protocol| N3
+        N3 <-->|Gossip Protocol| N1
     end
 ```
 

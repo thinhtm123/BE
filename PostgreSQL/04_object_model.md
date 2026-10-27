@@ -12,28 +12,27 @@ Trong khi các hệ quản trị CSDL truyền thống (như MySQL sơ khai) ch�
 ```mermaid
 flowchart LR
     subgraph RDBMS["🏛️ Mô hình Quan Hệ (RDBMS)"]
-        direction TB
         R1["Bảng quan hệ (Tables)"]
         R2["Toàn vẹn khóa ngoại (FKs)"]
         R3["Giao dịch ACID nghiêm ngặt"]
         R4["Ngôn ngữ SQL chuẩn hóa"]
+        R1 --- R2 --- R3 --- R4
     end
 
     subgraph OODBMS["📦 Mô hình Hướng Đối Tượng (OOP)"]
-        direction TB
         O1["Lớp & Đối tượng (Classes & Objects)"]
         O2["Kiểu dữ liệu tự tạo (Custom Types)"]
         O3["Tính kế thừa (Inheritance)"]
         O4["Tính đa hình (Polymorphism)"]
+        O1 --- O2 --- O3 --- O4
     end
 
     subgraph ORDBMS["🐘 PostgreSQL (ORDBMS)"]
-        direction TB
-        M1["Kết hợp trọn vẹn cả 2 thế giới:\nVừa an toàn dữ liệu SQL,\nvừa linh hoạt mở rộng như OOP!"]
+        M1["Kết hợp trọn vẹn cả 2 thế giới:<br/>Vừa an toàn dữ liệu SQL,<br/>vừa linh hoạt mở rộng như OOP!"]
     end
 
-    RDBMS --> ORDBMS
-    OODBMS --> ORDBMS
+    R4 --> M1
+    O4 --> M1
 ```
 
 ---

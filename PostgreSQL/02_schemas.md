@@ -17,35 +17,31 @@ flowchart TD
     DB[("🗄️ PostgreSQL Database: <b>ecommerce_db</b>")]
 
     subgraph SchemaAuth["📁 Schema: <b>auth</b>"]
-        direction TB
         T1["📋 Table: users"]
         T2["📋 Table: roles"]
         T3["📋 Table: permissions"]
     end
 
     subgraph SchemaShop["📁 Schema: <b>sales</b>"]
-        direction TB
         T4["📋 Table: orders"]
         T5["📋 Table: order_items"]
         T6["📋 Table: customers"]
     end
 
     subgraph SchemaBilling["📁 Schema: <b>billing</b>"]
-        direction TB
         T7["📋 Table: invoices"]
         T8["📋 Table: payments"]
         T9["⚡ Function: calculate_tax()"]
     end
 
     subgraph SchemaPublic["📁 Schema: <b>public</b> (Mặc định)"]
-        direction TB
         T10["📋 Table: flyway_schema_history"]
     end
 
-    DB --> SchemaAuth
-    DB --> SchemaShop
-    DB --> SchemaBilling
-    DB --> SchemaPublic
+    DB --> T1
+    DB --> T4
+    DB --> T7
+    DB --> T10
 ```
 
 ### Tại sao không tách ra nhiều Database mà lại dùng Schema?
