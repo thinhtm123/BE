@@ -1,6 +1,6 @@
-# 🛡️ Chuyên Đề: Web Security & Phòng Thủ Hệ Thống (Web Security Fundamentals)
+# 🛡️ Chuyên Đề: Web Security & Bảo Mật Hệ Thống (Web & API Security)
 
-Thư mục này tổng hợp toàn diện các kiến thức về **Bảo mật Ứng dụng Web (Web Application Security)**, các lỗ hổng kinh điển trong **OWASP Top 10**, các kỹ thuật tấn công phổ biến và chiến lược phòng thủ chiều sâu (**Defense in Depth**) dành cho lập trình viên Backend và System Architect.
+Thư mục này tổng hợp toàn diện các kiến thức về **Bảo mật Ứng dụng Web & API**, các kỹ thuật tấn công kinh điển trong **OWASP Top 10**, và chiến lược phòng thủ chiều sâu (**Defense in Depth**) dành cho lập trình viên Backend và System Architect.
 
 ---
 
@@ -50,3 +50,49 @@ Thư mục này tổng hợp toàn diện các kiến thức về **Bảo mật 
    - Tường lửa **UFW** (nguyên tắc "mặc định đóng", tuyệt đối không mở cổng Database 5432/3306 ra ngoài).
    - Tự động bỏ tù IP hacker với **Fail2ban** & tự động vá lỗi Kernel với **Unattended Upgrades**.
    - Nguyên tắc **Non-Root** cho ứng dụng Backend và chiến lược **Sao lưu dữ liệu 3-2-1**.
+
+8. 🛡️ **[API Security Best Practices (Cẩm Nang Bảo Vệ API Chuẩn Doanh Nghiệp)](./08_api_security_best_practices.md)**
+   - 10 Trụ cột bảo vệ API: Chống BOLA (IDOR) trên từng ID, chống gán lén quyền (Mass Assignment).
+   - Rate Limiting & Throttling (Status 429), giới hạn kích thước Payload JSON (Body limit).
+   - Bắt buộc dùng DTO (không trả Entity thô chứa mật khẩu), bắt buộc phân trang (Pagination).
+   - Kiến trúc **API Gateway** tập trung, chuẩn hóa mã lỗi (RFC 7807), và che giấu dữ liệu nhạy cảm trong Log.
+
+9. 📋 **[API Security Checklist: Input & Traffic Protection](./09_api_security_checklist_input.md)**
+   - Giải mã chi tiết 5 chốt chặn kiểm soát lưu lượng đầu vào của API.
+   - Throttling chống DDoS & Brute-force (Status 429 + Token Bucket).
+   - HTTPS với Secure Ciphers (chỉ dùng TLS 1.2/1.3 và AEAD Ciphers, tắt RC4/3DES/CBC).
+   - Cơ chế phòng thủ tấn công **SSL Strip** bằng Header **HSTS**.
+   - Tắt duyệt danh mục tệp tin (**Turn off directory listings**) chống lộ file `.env`, file `.sql` backup.
+   - Khóa chặt API nội bộ (**Private APIs**) chỉ cho phép truy cập từ dải IP an toàn (IP Whitelist / Private VPC).
+
+10. ⚙️ **[API Security Checklist: Processing (Xử Lý Dữ Liệu An Toàn)](./10_api_security_checklist_processing.md)**
+    - 9 Tiêu chuẩn an ninh bảo vệ tầng xử lý dữ liệu và logic nghiệp vụ.
+    - Triết lý "Mặc định từ chối" (Deny by Default) chống bỏ sót endpoint chưa xác thực.
+    - Tránh User ID trên URL (dùng `/me/orders`), ưu tiên UUIDv7 chống đoán ID và lộ doanh số.
+    - Phòng chống lỗ hổng đọc file **XXE** và sập RAM **Billion Laughs (XML/YAML Bomb)**.
+    - Kiến trúc upload file qua **CDN & Presigned URL**; xử lý dữ liệu lớn bất đồng bộ (Queue `202 Accepted`) chống treo kết nối HTTP.
+    - Tắt hoàn toàn Debug mode trên Production và kích hoạt cờ phần cứng **Non-executable stacks (NX/DEP)**.
+
+11. 📤 **[API Security Checklist: Output (Bảo Vệ Dữ Liệu Phản Hồi)](./11_api_security_checklist_output.md)**
+    - 7 Tiêu chuẩn an ninh kiểm soát dữ liệu và tiêu đề phản hồi của API.
+    - Chống trình duyệt đoán mò định dạng (MIME Sniffing) với `X-Content-Type-Options: nosniff`.
+    - Chống Clickjacking với `X-Frame-Options: DENY` và vô hiệu hóa script với `Content-Security-Policy: default-src 'none'`.
+    - Xóa dấu vết công nghệ (**Remove fingerprinting headers**: ẩn `X-Powered-By`, ẩn phiên bản Apache/Nginx).
+    - Ép cứng `Content-Type: application/json; charset=utf-8` và chống rò rỉ dữ liệu nhạy cảm (Dùng DTO, `@JsonIgnore`).
+    - Chuẩn hóa mã phản hồi HTTP Semantics (200, 201, 204, 400, 401, 403, 404, 422, 429, 500).
+
+12. 🚀 **[API Security Checklist: CI / CD (Tích Hợp & Triển Khai DevSecOps)](./12_api_security_checklist_cicd.md)**
+    - 5 Tiêu chuẩn an ninh tự động hóa trên đường ống CI/CD (Shift-Left Security).
+    - Viết Security Unit/Integration Test: Test mã lỗi 401, 403, test chống BOLA (IDOR), test Rate limit 429.
+    - Quy trình Code Review bắt buộc trên GitHub/GitLab: Cấm tự phê duyệt (no self-approval), bắt buộc 2 approvals.
+    - Quét mã nguồn tĩnh (**SAST** với Semgrep/SonarQube) và chặn lộ API Key (**Secret Scanning** với Gitleaks).
+    - Quét lỗ hổng trong thư viện bên thứ 3 (**SCA** với Dependabot, OWASP Dependency-Check chống Log4Shell).
+    - Thiết kế cơ chế **Rollback** tức thì (Chiến lược Blue-Green Deployment, Kubernetes undo rollout).
+
+13. 📊 **[API Security Checklist: Monitoring (Giám Sát & Phát Hiện Xâm Nhập)](./13_api_security_checklist_monitoring.md)**
+    - 5 Tiêu chuẩn an ninh xây dựng hệ thống radar giám sát và phát hiện kẻ đột nhập.
+    - Tập trung hóa toàn bộ Log (**Centralized Logging**: ELK Stack Kibana / Grafana Loki) thay vì xem log rời rạc.
+    - Cài đặt **Monitoring Agents** theo dõi 4 chỉ số vàng (Latency, Traffic, Errors, Saturation với Prometheus/Datadog).
+    - Thiết lập hệ thống cảnh báo đa kênh tức thì: Cảnh báo dò pass (nhiều lỗi 401) bắn về Slack/SMS/PagerDuty.
+    - Kỹ thuật mặt nạ dữ liệu (**Log Masking**): Che giấu số thẻ ngân hàng, email, mật khẩu trong log theo chuẩn PCI-DSS.
+    - Hệ thống phát hiện xâm nhập **IDS** ("camera an ninh") và ngăn chặn xâm nhập **IPS** ("bảo vệ có vũ trang") với WAF, Fail2ban, Suricata.
