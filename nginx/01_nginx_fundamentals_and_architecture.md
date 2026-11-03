@@ -30,30 +30,51 @@ Vào những năm 2000, **Apache HTTP Server** là "vua" thống trị thế gi�
 
 Khi bạn khởi động Nginx, hệ thống sẽ sinh ra 2 loại tiến trình:
 
+```
+  ┌────────────────────────────────────────────────────────┐
+  │ 👑 MASTER PROCESS (Quyền root: Đọc file cấu hình,     │
+  │    bind port 80/443, khởi tạo & giám sát Worker)       │
+  └───────────────────────────┬────────────────────────────┘
+                              │ (Quản lý & Hồi sinh nếu sập)
+          ┌───────────────────┼───────────────────┐
+          ▼                   ▼                   ▼
+  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+  │  ⚙️ Worker 1  │    │  ⚙️ Worker 2  │    │  ⚙️ Worker N  │
+  │ (Non-root)   │    │ (Non-root)   │    │ (Non-root)   │
+  └───────┬──────┘    └───────┬──────┘    └───────┬──────┘
+          │                   │                   │
+          │ (Xử lý hàng chục nghìn kết nối qua epoll / kqueue)
+          ▼                   ▼                   ▼
+  ┌────────────────────────────────────────────────────────┐
+  │ 🌐 HÀNG CHỤC NGHÌN CLIENTS (Trình duyệt, Mobile App)   │
+  └────────────────────────────────────────────────────────┘
+```
+
 ```mermaid
-graph TD
-    classDef master fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#fef3c7,font-weight:bold;
-    classDef worker fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#fff,font-weight:bold;
-    classDef client fill:#14532d,stroke:#22c55e,stroke-width:2px,color:#fff,font-weight:bold;
+flowchart TD
+    classDef master fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#fef3c7,font-weight:bold
+    classDef worker fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#fff,font-weight:bold
+    classDef client fill:#14532d,stroke:#22c55e,stroke-width:2px,color:#fff,font-weight:bold
 
-    M["👑 MASTER PROCESS<br/>(Chạy quyền root: Đọc cấu hình, quản lý các Worker)"]:::master
+    subgraph NGINX ["MÁY CHỦ NGINX"]
+        Master["👑 MASTER PROCESS (Quyền root)<br/>Đọc cấu hình • Mở cổng 80/443 • Quản lý & hồi sinh Worker"]:::master
 
-    W1["⚙️ Worker 1<br/>(Chạy quyền non-root)"]:::worker
-    W2["⚙️ Worker 2<br/>(Chạy quyền non-root)"]:::worker
-    W3["⚙️ Worker 3<br/>(Chạy quyền non-root)"]:::worker
-    W4["⚙️ Worker 4<br/>(Chạy quyền non-root)"]:::worker
+        subgraph WORKERS ["CÁC WORKER PROCESSES (Non-root - Chạy trên từng nhân CPU)"]
+            W1["⚙️ Worker 1 (CPU 1)"]:::worker
+            W2["⚙️ Worker 2 (CPU 2)"]:::worker
+            W3["⚙️ Worker N (CPU N)"]:::worker
+        end
 
-    C["🌐 HÀNG CHỤC NGHÌN CLIENTS"]:::client
+        Master --> W1
+        Master -->|"1. Quản lý tín hiệu & Giám sát"| W2
+        Master --> W3
+    end
 
-    M -->|Quản lý & Giám sát| W1
-    M -->|Quản lý & Giám sát| W2
-    M -->|Quản lý & Giám sát| W3
-    M -->|Quản lý & Giám sát| W4
+    Clients["🌐 HÀNG CHỤC NGHÌN CLIENTS (Internet / Mobile / Web)"]:::client
 
-    C <==>|Xử lý Non-blocking Event Loop| W1
-    C <==>|Xử lý Non-blocking Event Loop| W2
-    C <==>|Xử lý Non-blocking Event Loop| W3
-    C <==>|Xử lý Non-blocking Event Loop| W4
+    W1 <--> Clients
+    W2 <-->|"2. Non-blocking Event Loop (epoll / kqueue)"| Clients
+    W3 <--> Clients
 ```
 
 1. **Master Process (Tiến trình chúa)**:
